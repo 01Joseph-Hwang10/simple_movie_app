@@ -20,7 +20,7 @@ class DetailPage extends StatefulWidget {
 
 class _DetailState extends State<DetailPage> {
   String movieId;
-  String _movieTitle = '';
+  // String _movieTitle = '';
   CommentsResponse _commentsResponse;
   MovieResponse _movieResponse;
 

@@ -3,21 +3,33 @@ import 'package:flutter/material.dart';
 // 1-3. 리스트 화면 (임포트)
 import 'model/data/dummys_repository.dart';
 import 'model/response/movies_response.dart';
+import 'package:padak_starter/detail_page.dart';
 
 class ListPage extends StatelessWidget {
+  final List<Movie> movies = DummysRepository.loadDummyMovies();
+
   @override
   Widget build(BuildContext context) {
     // 1-3. 리스트 화면 (동적 데이터 추가)
-    final List<Movie> movies = DummysRepository.loadDummyMovies();
 
     // 1-3. 리스트 화면 (초기 리스트 구현)
     return ListView.separated(
-        itemBuilder: (contenxt, index) => _buildItem(movies[index]),
+        itemBuilder: (context, index) => _buildListItem(context, index: index),
         separatorBuilder: (_, index) => Divider(color: Colors.grey),
         itemCount: movies.length);
   }
 
   // 1-3. 리스트 화면 (고정 더미 데이터)
+  Widget _buildListItem(BuildContext context, {@required int index}) {
+    Movie movie = movies[index];
+
+    return InkWell(
+        child: _buildItem(movie),
+        onTap: () {
+          Navigator.of(context)
+              .push(MaterialPageRoute(builder: (_) => DetailPage(movie.id)));
+        });
+  }
 
   // 1-3. 리스트 화면 (동적 데이터 호출1)
   Widget _buildItem(Movie movie) {
