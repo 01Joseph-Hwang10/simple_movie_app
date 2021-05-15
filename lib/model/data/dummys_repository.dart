@@ -68,7 +68,7 @@ class DummysRepository {
         12,
         '토르:라그나로크',
         '액션, 모험, 판타지, SF',
-        'https://raw.githubusercontent.com/riflockle7/ref/master/1.%20ImageRef/padakpadak/3.jpg',
+        'https://upload.wikimedia.org/wikipedia/ko/c/cf/%ED%86%A0%EB%A5%B4_%EB%9D%BC%EA%B7%B8%EB%82%98%EB%A1%9C%ED%81%AC.jpg',
         130,
         '피할 수 없는 세상의 멸망 ‘라그나로크’를 막아라! 죽음의 여신 ‘헬라’가 아스가르드를 침략하고, 세상은 모든 것의 종말 ‘라그나로크’의 위기에 처한다. 헬라에게 자신의 망치마저 파괴당한 토르는 어벤져스 동료인 헐크와도 피할 수 없는 대결을벌이면서 절체절명의 위기에 빠지게 되는데…',
         6.73),
@@ -174,7 +174,7 @@ class DummysRepository {
         3,
         '5a54c1f2e8a71d136fb5376e',
         '2017-10-25',
-        'https://raw.githubusercontent.com/riflockle7/ref/master/1.%20ImageRef/padakpadak/3.jpg',
+        'https://upload.wikimedia.org/wikipedia/ko/c/cf/%ED%86%A0%EB%A5%B4_%EB%9D%BC%EA%B7%B8%EB%82%98%EB%A1%9C%ED%81%AC.jpg',
         6.73),
     Movie(
         '러빙 빈센트',

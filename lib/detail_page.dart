@@ -342,7 +342,10 @@ class _DetailState extends State<DetailPage> {
               SizedBox(
                 height: 5,
               ),
-              Text(comment.contents)
+              Container(
+                width: 165,
+                child: Text(comment.contents),
+              )
             ],
           ),
           SizedBox(
