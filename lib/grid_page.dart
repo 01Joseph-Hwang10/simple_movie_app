@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:padak_starter/detail_page.dart';
 import 'model/response/movies_response.dart';
-import 'model/data/dummys_repository.dart';
 
 // 1-3. Grid 리스트 화면 (임포트)
 
 class GridPage extends StatelessWidget {
   // 1-4. Grid 리스트 화면 (동적 데이터 추가)
-  final List<Movie> movies = DummysRepository.loadDummyMovies();
+  // final List<Movie> movies = DummysRepository.loadDummyMovies();
+  final List<Movie> movies;
+  GridPage(this.movies);
 
   @override
   Widget build(BuildContext context) {

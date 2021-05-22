@@ -6,6 +6,8 @@ import 'package:padak_starter/model/widget/star_rating_bar.dart';
 import 'model/response/comments_response.dart';
 import 'model/response/movie_response.dart';
 import 'package:intl/intl.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class DetailPage extends StatefulWidget {
   final String movieId;
@@ -20,12 +22,54 @@ class DetailPage extends StatefulWidget {
 
 class _DetailState extends State<DetailPage> {
   String movieId;
-  // String _movieTitle = '';
+  String _movieTitle;
   CommentsResponse _commentsResponse;
   MovieResponse _movieResponse;
 
   _DetailState(String movieId) {
     this.movieId = movieId;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _requestMovie();
+  }
+
+  Future<MovieResponse> _getMovieResponse() async {
+    final response = await http
+        .get('http://padakpadak.run.goorm.io/movie?id=${widget.movieId}');
+    if (response.statusCode == 200) {
+      final jsonData = json.decode(response.body);
+      final movieResponse = MovieResponse.fromJson(jsonData);
+      return movieResponse;
+    }
+    return null;
+  }
+
+  Future<CommentsResponse> _getCommentsResponse() async {
+    final response = await http.get(
+        'http://padakpadak.run.goorm.io/comments?movie_id=${widget.movieId}');
+    if (response.statusCode == 200) {
+      final jsonData = json.decode(response.body);
+      final commentsResponse = CommentsResponse.fromJson(jsonData);
+      return commentsResponse;
+    }
+    return null;
+  }
+
+  void _requestMovie() async {
+    setState(() {
+      _movieResponse = null;
+    });
+    final movieResponse = await _getMovieResponse();
+    final commentsResponse = await _getCommentsResponse();
+
+    setState(() {
+      _movieResponse = movieResponse;
+      _commentsResponse = commentsResponse;
+      _movieTitle = movieResponse.title;
+    });
   }
 
   @override
@@ -39,24 +83,34 @@ class _DetailState extends State<DetailPage> {
     return Scaffold(
         appBar: AppBar(
           // 2-1. 상세 화면 (제목 설정)
-          title: Text(_movieResponse.title),
+          title: Text(_movieTitle),
         ),
         // 2-1. 상세 화면 (전체 화면 세팅1)
         body: _buildContents());
   }
 
   Widget _buildContents() {
-    return SingleChildScrollView(
-      padding: EdgeInsets.all(8),
-      child: Column(
-        children: [
-          _buildMovieSummary(),
-          _buildMovieSynopsis(),
-          _buildMovieCast(),
-          _buildComment(),
-        ],
-      ),
-    );
+    Widget contentsWidget;
+
+    if (_movieResponse == null) {
+      contentsWidget = Center(
+        child: CircularProgressIndicator(),
+      );
+    } else {
+      contentsWidget = SingleChildScrollView(
+        padding: EdgeInsets.all(8),
+        child: Column(
+          children: [
+            _buildMovieSummary(),
+            _buildMovieSynopsis(),
+            _buildMovieCast(),
+            _buildComment(),
+          ],
+        ),
+      );
+    }
+
+    return contentsWidget;
   }
 
   // 2-1. 상세 화면 (전체 화면 세팅2)

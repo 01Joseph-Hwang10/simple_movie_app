@@ -1,5 +1,8 @@
 import "package:flutter/material.dart";
+import 'package:padak_starter/model/response/comments_response.dart';
 import 'package:padak_starter/model/widget/star_rating_bar.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class CommentPage extends StatefulWidget {
   final String movieTitle;
@@ -23,6 +26,25 @@ class CommentPageState extends State<CommentPage> {
   CommentPageState(String movieTitle, String movieId) {
     this.movieTitle = movieTitle;
     this.movieId = movieId;
+  }
+
+  void _postComment() async {
+    final currentTime =
+        DateTime.now().millisecondsSinceEpoch.toDouble() ~/ 1000;
+    final commentRequest = Comment(
+        rating: _rating,
+        movieId: widget.movieId,
+        timestamp: currentTime,
+        contents: _contents,
+        writer: _writer);
+    final response = await http.post('http://padakpadak.run.goorm.io/comment',
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode(commentRequest.toMap()));
+    if (response.statusCode == 200) {
+      Navigator.of(context).pop(true);
+    } else {
+      _showSnackBar('잠시 후 다시 시도해주세요.');
+    }
   }
 
   // 3-1. 댓글 입력 화면 (화면 구현)
